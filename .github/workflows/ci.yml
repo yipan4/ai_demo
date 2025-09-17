@@ -24,7 +24,7 @@ jobs:
         continue-on-error: true
         run: |
           set +e
-          python project/clien.py > run.out 2> run.err
+          python project/client.py > run.out 2> run.err
           code=$?
           echo "exit_code=$code" >> $GITHUB_OUTPUT
           # Explicitly set outcome based on the exit code
