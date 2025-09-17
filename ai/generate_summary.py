@@ -43,6 +43,18 @@ def generate_ai_summary():
             ]
         }
         
+        def write_summary_output(content):
+            gh_out = os.environ.get('GITHUB_OUTPUT')
+            if gh_out:
+                try:
+                    with open(gh_out, 'a', encoding='utf-8') as f:
+                        f.write(f"summary<<EOF\n{content}\nEOF\n")
+                    return
+                except Exception as e:
+                    print(f"DEBUG: Failed writing to GITHUB_OUTPUT: {e}", file=sys.stderr)
+            # Fallback: write a single-line JSON to stdout (safer than unquoted exports)
+            print(json.dumps({"summary": content}))
+
         # Make the request to Azure OpenAI
         import urllib.request
         
@@ -78,6 +90,7 @@ def generate_ai_summary():
                 # Output to GITHUB_OUTPUT
                 content = content.strip() or "No AI summary generated."
                 print(f"summary<<EOF\n{content}\nEOF")
+                write_summary_output(content)
         except urllib.error.HTTPError as e:
             error_msg = e.read().decode() if hasattr(e, 'read') else str(e)
             print(f"DEBUG: HTTP Error: {e.code} - {error_msg}", file=sys.stderr)
@@ -99,6 +112,7 @@ def generate_ai_summary():
                 """.format(e.code)
                 
             print(f"summary<<EOF\n{fallback}\nEOF")
+            write_summary_output(fallback)
         except Exception as e:
             print(f"DEBUG: Exception: {str(e)}", file=sys.stderr)
             
@@ -126,13 +140,14 @@ def generate_ai_summary():
                 """.format(str(e)[:40])
                 
             print(f"summary<<EOF\n{fallback}\nEOF")
+            write_summary_output(fallback)   
     
     except Exception as e:
         import traceback
         error_tb = traceback.format_exc()
         print(f"DEBUG: Exception in main function: {str(e)}", file=sys.stderr)
         print(f"DEBUG: Traceback: {error_tb}", file=sys.stderr)
-        print(f"summary<<EOF\nError generating AI summary: {str(e)}\nEOF")
+        write_summary_output(f"Error generating AI summary: {str(e)}")
 
 if __name__ == "__main__":
     generate_ai_summary()
