@@ -9,7 +9,8 @@ class CNN(nn.Module):
         self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)    
         self.conv2 = nn.Conv2d(32, 64, kernel_size=5, padding=2) 
         self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)    
-        self.fc1 = nn.Linear(64 * 7 * 7, 512)
+        self.fc1 = nn.Linear(64 * 7, 512)
+        # self.fc1 = nn.Linear(64 * 7 * 7, 512)
         self.fc2 = nn.Linear(512, 10) 
 
     def forward(self, x):

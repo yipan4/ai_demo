@@ -485,6 +485,7 @@ if __name__ == '__main__':
     if not SERVER_IP or not SERVER_PORT:
         print(f'Client {CLIENT_ID_STR}: FATAL - SERVER_IP or SERVER_PORT not set.', flush=True)
         exit(1)
-    
-    setup_client_logging_file()
-    start_client_daemon()
+
+    print(f"Client {CLIENT_ID} started successfully with MODE={MODE}, SERVER={SERVER_IP}:{SERVER_PORT}, TOTAL_CLIENTS={NUM_TOTAL_CLIENTS_IN_FL}, SEED={SEED}", flush=True)
+    # setup_client_logging_file()
+    # start_client_daemon()
