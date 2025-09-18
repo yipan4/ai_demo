@@ -6,7 +6,6 @@ import sys
 def generate_ai_summary():
     # Get environment variables
     try:
-        
         # Get required environment variables with better error handling
         endpoint = os.environ.get('AOAI_ENDPOINT', '')
         if not endpoint:
