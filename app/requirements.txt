@@ -8,7 +8,6 @@ numpy==2.2.5
 pillow==11.2.1
 setuptools==80.1.0
 sympy==1.14.0
-torch==2.7.0
 torchaudio==2.7.0
 torchvision==0.22.0
 typing_extensions==4.13.2
